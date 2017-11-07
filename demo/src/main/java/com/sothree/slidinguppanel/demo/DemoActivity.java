@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -38,13 +40,7 @@ public class DemoActivity extends AppCompatActivity {
 
         setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
 
-        ListView lv = (ListView) findViewById(R.id.list);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(DemoActivity.this, "onItemClick", Toast.LENGTH_SHORT).show();
-            }
-        });
+        RecyclerView lv = findViewById(R.id.list);
 
         List<String> your_array_list = Arrays.asList(
                 "This",
@@ -75,13 +71,10 @@ public class DemoActivity extends AppCompatActivity {
 
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your
-        // array as a third parameter.
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                your_array_list );
-
-        lv.setAdapter(arrayAdapter);
+        // array as a third parameter
+        Adapter adapter = new Adapter(your_array_list);
+        lv.setAdapter(adapter);
+        lv.setLayoutManager(new LinearLayoutManager(this));
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.addPanelSlideListener(new PanelSlideListener() {
